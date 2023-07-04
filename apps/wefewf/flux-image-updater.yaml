@@ -1,0 +1,22 @@
+apiVersion: image.toolkit.fluxcd.io/v1beta2
+kind: ImageRepository
+metadata:
+  name: wefwef-official
+  namespace: flux-system
+spec:
+  image: ghcr.io/aeharding/wefwef
+  interval: 1m0s
+
+---
+
+apiVersion: image.toolkit.fluxcd.io/v1beta2
+kind: ImagePolicy
+metadata:
+  name: wefwef-image
+  namespace: flux-system
+spec:
+  imageRepositoryRef:
+    name: wefwef-official
+  policy:
+    semver:
+      range: '<0.11.0'
