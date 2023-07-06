@@ -17,18 +17,18 @@ spec:
     spec:
       containers:
       - name: homepage
-        image: ghcr.io/nohoster/homepage:sha-0ef31e5 # {"$imagepolicy": "flux-system:homepage-image"}
+        image: ghcr.io/nohoster/homepage:0.0.3 # {"$imagepolicy": "flux-system:homepage-image"}
         ports:
         - containerPort: 80
         securityContext:
-          #readOnlyRootFilesystem: true
-          #runAsGroup: 10010
-          #runAsNonRoot: true
-          #runAsUser: 10010
-          #allowPrivilegeEscalation: false
-          #capabilities:
-          #  drop:
-          #  - ALL
+        #readOnlyRootFilesystem: true
+        #runAsGroup: 10010
+        #runAsNonRoot: true
+        #runAsUser: 10010
+        #allowPrivilegeEscalation: false
+        #capabilities:
+        #  drop:
+        #  - ALL
         resources:
           requests:
             cpu: "100m"
