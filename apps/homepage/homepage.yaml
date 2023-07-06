@@ -25,10 +25,10 @@ spec:
           #runAsGroup: 10010
           #runAsNonRoot: true
           #runAsUser: 10010
-          allowPrivilegeEscalation: false
-          capabilities:
-            drop:
-            - ALL
+          #allowPrivilegeEscalation: false
+          #capabilities:
+          #  drop:
+          #  - ALL
         resources:
           requests:
             cpu: "100m"
