@@ -17,7 +17,7 @@ spec:
     spec:
       containers:
       - name: homepage
-        image: ghcr.io/nohoster/homepage:latest # {"$imagepolicy": "flux-system:homepage-image"}
+        image: ghcr.io/nohoster/homepage:sha-0ef31e5 # {"$imagepolicy": "flux-system:homepage-image"}
         ports:
         - containerPort: 80
         securityContext:
