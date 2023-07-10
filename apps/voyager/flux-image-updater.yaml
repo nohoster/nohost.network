@@ -1,10 +1,10 @@
 apiVersion: image.toolkit.fluxcd.io/v1beta2
 kind: ImageRepository
 metadata:
-  name: wefwef-official
+  name: voyager-official
   namespace: flux-system
 spec:
-  image: ghcr.io/aeharding/wefwef
+  image: ghcr.io/aeharding/voyager
   interval: 10m0s
 
 ---
@@ -12,12 +12,12 @@ spec:
 apiVersion: image.toolkit.fluxcd.io/v1beta2
 kind: ImagePolicy
 metadata:
-  name: wefwef-image
+  name: voyager-image
   namespace: flux-system
 spec:
   imageRepositoryRef:
-    name: wefwef-official
+    name: voyager-official
   policy:
     semver:
-      range: '>0.11.0'
+      range: '>0.18.0'
 

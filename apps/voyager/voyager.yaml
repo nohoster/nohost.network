@@ -1,30 +1,30 @@
 apiVersion: apps/v1
 kind: Deployment
 metadata:
-  name: wefwef
+  name: voyager
   namespace: default
   labels:
-    app: wefwef
+    app: voyager
 spec:
   replicas: 1
   selector:
     matchLabels:
-      app: wefwef
+      app: voyager
   template:
     metadata:
       labels:
-        app: wefwef
+        app: voyager
     spec:
       containers:
-      - name: wefwef
-        image: ghcr.io/aeharding/wefwef:0.17.0 # {"$imagepolicy": "flux-system:wefwef-image"}
+      - name: voyager
+        image: ghcr.io/aeharding/voyager:0.18.0 # {"$imagepolicy": "flux-system:voyager-image"}
         ports:
         - containerPort: 5314
         securityContext:
           readOnlyRootFilesystem: true
-          runAsGroup: 10010
+          runAsGroup: 911
           runAsNonRoot: true
-          runAsUser: 10010
+          runAsUser: 911
           allowPrivilegeEscalation: false
           capabilities:
             drop:
@@ -40,11 +40,11 @@ spec:
 apiVersion: v1
 kind: Service
 metadata:
-  name: wefwef-svc
+  name: voyager-svc
   namespace: default
 spec:
   selector:
-    app: wefwef
+    app: voyager
   type: ClusterIP
   ports:
   - protocol: TCP
