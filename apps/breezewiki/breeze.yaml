@@ -31,7 +31,7 @@ spec:
         ports:
         - containerPort: 10416
         env:
-        - name: canonical_origin
+        - name: bw_canonical_origin
           value: https://breeze.nohost.network
         securityContext:
         #  readOnlyRootFilesystem: true
