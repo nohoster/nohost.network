@@ -1,0 +1,67 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: breeze
+  labels:
+    app: breeze
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: breeze
+  template:
+    metadata:
+      labels:
+        app: breeze
+    spec:
+      affinity:
+        nodeAffinity:
+          preferredDuringSchedulingIgnoredDuringExecution:
+          - weight: 1
+            preference:
+              matchExpressions:
+              - key: node-role.kubernetes.io/worker
+                operator: In
+                values:
+                - "true"
+      containers:
+      - name: breeze
+        image: codeberg.org/nohoster/breezewiki:latest
+        ports:
+        - containerPort: 10416
+        env:
+        - name: canonical_origin
+          value: https://breeze.nohost.network
+        securityContext:
+        #  readOnlyRootFilesystem: true
+        #  runAsGroup: 10010
+        #  runAsNonRoot: true
+        #  runAsUser: 10010
+          allowPrivilegeEscalation: false
+          capabilities: 
+            drop: 
+            - ALL
+        resources:
+          requests:
+            cpu: "100m"
+            memory: "512Mi"
+          limits:
+            cpu: "200m"
+            memory: "700Mi"
+      imagePullSecrets:
+      - name: codeberg-secret
+
+---
+
+apiVersion: v1
+kind: Service
+metadata:
+  name: breeze-svc
+spec:
+  selector:
+    app: breeze
+  type: ClusterIP
+  ports:
+  - protocol: TCP
+    port: 80
+    targetPort: 10416
