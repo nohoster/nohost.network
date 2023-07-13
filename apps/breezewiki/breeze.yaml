@@ -32,7 +32,11 @@ spec:
         - containerPort: 10416
         env:
         - name: bw_canonical_origin
-          value: https://breeze.nohost.network
+          value: breeze.nohost.network
+        - name: bw_port
+          value: 10416
+        - name: bw_debug
+          value: false
         securityContext:
         #  readOnlyRootFilesystem: true
         #  runAsGroup: 10010
