@@ -1,0 +1,67 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: rimgo
+  namespace: default
+  labels:
+    app: rimgo
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: rimgo
+  template:
+    metadata:
+      labels:
+        app: rimgo
+    spec:
+      securityContext:
+        runAsUser: 65534
+        runAsGroup: 65534
+      containers:
+      - name: rimgo
+        image: codeberg.org/rimgo/rimgo:latest
+        ports:
+        - containerPort: 3000
+        env:
+        - name: PRIVACY_COUNTRY
+          value: "Mexico"
+        - name: PRIVACY_PROVIDER
+          value: "Telmex"
+        - name: PRIVACY_NOT_COLLECTED
+          value: "true"
+        - name: PRIVACY_DIAGNOSTICS
+          value: "true"
+        securityContext:
+          readOnlyRootFilesystem: true
+          runAsGroup: 65534
+          runAsNonRoot: true
+          runAsUser: 65534
+          allowPrivilegeEscalation: false
+          capabilities: 
+            drop: 
+            - ALL
+        resources:
+          requests:
+            cpu: "100m"
+            memory: "128Mi"
+          limits:
+            cpu: "200m"
+            memory: "256Mi"
+
+
+---
+
+apiVersion: v1
+kind: Service
+metadata:
+  name: rimgo-svc
+  namespace: default
+spec:
+  selector:
+    app: rimgo
+  type: ClusterIP
+  ports:
+  - protocol: TCP
+    port: 80
+    targetPort: 3000
