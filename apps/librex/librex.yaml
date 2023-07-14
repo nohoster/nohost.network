@@ -1,0 +1,78 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: librex
+  namespace: default
+  labels:
+    app: librex
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: librex
+  template:
+    metadata:
+      labels:
+        app: librex
+    spec:
+      containers:
+      - name: librex
+        image: ghcr.io/nohoster/librex:130723
+        ports:
+        - containerPort: 8080
+        securityContext:
+        #  readOnlyRootFilesystem: true
+          runAsGroup: 1000
+          runAsNonRoot: true
+          runAsUser: 1000
+        #  allowPrivilegeEscalation: false
+        #  capabilities: 
+        #    drop: 
+        #    - ALL
+        resources:
+          requests:
+            cpu: "100m"
+            memory: "100Mi"
+          limits:
+            cpu: "200m"
+            memory: "200Mi"
+        env:
+        - name: PUID
+          value: "1000"
+        - name: GUID
+          value: "1000"
+        - name: VERSION
+          value: docker
+        - name: TZ
+          value: "America/Mexico_City"
+        - name: CONFIG_GOOGLE_DOMAIN
+          value: "com"
+        - name: CONFIG_GOOGLE_LANGUAGE
+          value: "en"
+        - name: CONFIG_WIKIPEDIA_LANGUAGE
+          value: "en"
+        - name: APP_LIBREREDDIT
+          value: "libreddit.nohost.network"
+        - name: APP_NITTER
+          value: "nitter.nohost.network"
+        - name: APP_RIMGO
+          value: "rimgo.nohost.network"
+        - name: APP_BREEZEWIKI
+          value: "breeze.nohost.network"
+
+---
+
+apiVersion: v1
+kind: Service
+metadata:
+  name: librex-svc
+  namespace: default
+spec:
+  selector:
+    app: librex
+  type: ClusterIP
+
+  ports:
+  - protocol: TCP
+    port: 80
+    targetPort: 8080

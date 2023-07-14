@@ -1,0 +1,27 @@
+apiVersion: networking.k8s.io/v1
+kind: Ingress
+metadata:
+  name: librex-ingress
+  namespace: default
+  annotations:
+    spec.ingressClassName: traefik
+    cert-manager.io/issuer: nohost-issuer
+    traefik.ingress.kubernetes.io/router.entrypoints: websecure
+    traefik.ingress.kubernetes.io/router.tls: "true"
+spec:
+  rules:
+  - host: librex.nohost.network
+    http:
+      paths:
+      - path: /
+        pathType: Prefix
+        backend:
+          service:
+            name: librex-svc
+            port:
+              number: 80
+  tls:
+  - hosts:
+    - librex.nohost.network
+    secretName: librex-cert
+
