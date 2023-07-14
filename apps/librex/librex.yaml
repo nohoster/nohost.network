@@ -22,9 +22,9 @@ spec:
         - containerPort: 8080
         securityContext:
         #  readOnlyRootFilesystem: true
-          runAsGroup: 1000
-          runAsNonRoot: true
-          runAsUser: 1000
+        #  runAsGroup: 1000
+        #  runAsNonRoot: true
+        #  runAsUser: 1000
         #  allowPrivilegeEscalation: false
         #  capabilities: 
         #    drop: 
