@@ -1,0 +1,67 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: nitter
+  namespace: default
+  labels:
+    app: nitter
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: nitter
+  template:
+    metadata:
+      labels:
+        app: nitter
+    spec:
+      containers:
+      - name: nitter
+        image: zedeus/nitter:latest
+        ports:
+        - containerPort: 8080
+        volumeMounts:
+        - name: nitter-volconfig
+          mountPath: /src/nitter.conf
+          subPath: nitter.conf
+        securityContext:
+          readOnlyRootFilesystem: true
+          runAsGroup: 10010
+          runAsNonRoot: true
+          runAsUser: 10010
+          allowPrivilegeEscalation: false
+          capabilities:
+            drop:
+            - ALL
+        resources:
+          requests:
+            cpu: "100m"
+            memory: "128Mi"
+          limits:
+            cpu: "200m"
+            memory: "256Mi"
+      volumes:
+      - name: nitter-volconfig
+        secret:
+          secretName: nitter-conf
+#          items:
+#          - key: nitter.conf
+#            path: nitter.conf
+
+
+---
+
+apiVersion: v1
+kind: Service
+metadata:
+  name: nitter-svc
+  namespace: default
+spec:
+  selector:
+    app: nitter
+  type: ClusterIP
+
+  ports:
+  - protocol: TCP
+    port: 80
+    targetPort: 8080
