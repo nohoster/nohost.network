@@ -1,0 +1,30 @@
+
+apiVersion: helm.toolkit.fluxcd.io/v2beta1
+kind: HelmRelease
+metadata:
+  name: nitter-redis
+  namespace: default
+spec:
+  chart:
+    spec:
+      chart: redis
+      sourceRef:
+        kind: HelmRepository
+        name: redis-repo
+        namespace: flux-system
+      version: ">=17.15.0"
+  interval: 1h0m0s
+  releaseName: nitter-redis
+  targetNamespace: default
+  install:
+    crds: Create
+  upgrade:
+    crds: CreateReplace
+  values:
+    architecture: "standalone"
+    auth:
+      enabled: false
+    master:
+      kind: "Deployment"
+      persistence:
+        enabled: false
