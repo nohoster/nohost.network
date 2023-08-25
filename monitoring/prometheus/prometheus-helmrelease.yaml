@@ -1,0 +1,27 @@
+apiVersion: helm.toolkit.fluxcd.io/v2beta1
+kind: HelmRelease
+metadata:
+  name: prometheus
+  namespace: monitoring
+spec:
+  interval: 1h0m0s
+  chart:
+    spec:
+      chart: prometheus
+      version: '>=23.0.0'
+      sourceRef:
+        kind: HelmRepository
+        name: prometheus-community-repo
+        namespace: flux-system
+  releaseName: prometheus
+  targetNamespace: monitoring
+  install:
+    crds: Create
+  upgrade:
+    crds: CreateReplace
+  valuesFrom:
+  - kind: ConfigMap
+    name: prometheus-values
+  - kind: Secret
+    name: prometheus-remote-secret
+    targetPath: server.remoteWrite
