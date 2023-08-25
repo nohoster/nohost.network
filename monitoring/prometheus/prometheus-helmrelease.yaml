@@ -24,4 +24,9 @@ spec:
     name: prometheus-values
   - kind: Secret
     name: prometheus-remote-secret
-    targetPath: server.remoteWrite
+    targetPath: server.remoteWrite[0].basic_auth.username
+    valuesKey: username
+  - kind: Secret
+    name: prometheus-remote-secret
+    targetPath: server.remoteWrite[0].basic_auth.password
+    valuesKey: password
