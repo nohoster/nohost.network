@@ -17,13 +17,17 @@ spec:
     spec:
       containers:
       - name: nitter
-        image: zedeus/nitter:latest
+        #image: zedeus/nitter:latest
+        image: ghcr.io/nohoster/nitter:latest
         ports:
         - containerPort: 8080
         volumeMounts:
         - name: nitter-volconfig
           mountPath: /src/nitter.conf
           subPath: nitter.conf
+        - name: nitter-guest-accounts
+          mountPath: /src/guest_accounts.json
+          subPath: guest_accounts.json
         securityContext:
           readOnlyRootFilesystem: true
           runAsGroup: 10010
@@ -44,9 +48,10 @@ spec:
       - name: nitter-volconfig
         secret:
           secretName: nitter-conf
-#          items:
-#          - key: nitter.conf
-#            path: nitter.conf
+      - name: nitter-guest-accounts
+        secret:
+          secretName: nitter-guest-accounts
+
 
 
 ---
