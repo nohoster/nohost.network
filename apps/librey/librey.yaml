@@ -20,7 +20,7 @@ spec:
         image: ghcr.io/nohoster/librey:latest
         ports:
         - containerPort: 8080
-        securityContext:
+        #securityContext:
         #  readOnlyRootFilesystem: true
         #  runAsGroup: 1000
         #  runAsNonRoot: true
