@@ -17,7 +17,7 @@ spec:
         pathType: Prefix
         backend:
           service:
-            name: librex-svc
+            name: librey-svc
             port:
               number: 80
   tls:
@@ -25,3 +25,31 @@ spec:
     - librex.nohost.network
     secretName: librex-cert
 
+---
+
+apiVersion: networking.k8s.io/v1
+kind: Ingress
+metadata:
+  name: librey-ingress
+  namespace: default
+  annotations:
+    spec.ingressClassName: traefik
+    cert-manager.io/issuer: nohost-issuer
+    traefik.ingress.kubernetes.io/router.entrypoints: websecure
+    traefik.ingress.kubernetes.io/router.tls: "true"
+spec:
+  rules:
+  - host: librey.nohost.network
+    http:
+      paths:
+      - path: /
+        pathType: Prefix
+        backend:
+          service:
+            name: librey-svc
+            port:
+              number: 80
+  tls:
+  - hosts:
+    - librey.nohost.network
+    secretName: librey-cert

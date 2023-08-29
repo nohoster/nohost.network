@@ -1,23 +1,23 @@
 apiVersion: apps/v1
 kind: Deployment
 metadata:
-  name: librex
+  name: librey
   namespace: default
   labels:
-    app: librex
+    app: librey
 spec:
   replicas: 1
   selector:
     matchLabels:
-      app: librex
+      app: librey
   template:
     metadata:
       labels:
-        app: librex
+        app: librey
     spec:
       containers:
-      - name: librex
-        image: ghcr.io/nohoster/librex:130723
+      - name: librey
+        image: ghcr.io/nohoster/librey:latest
         ports:
         - containerPort: 8080
         securityContext:
@@ -52,24 +52,24 @@ spec:
         - name: CONFIG_WIKIPEDIA_LANGUAGE
           value: "en"
         - name: APP_LIBREREDDIT
-          value: "libreddit.nohost.network"
+          value: "https://libreddit.nohost.network"
         - name: APP_NITTER
-          value: "nitter.nohost.network"
+          value: "https://nitter.nohost.network"
         - name: APP_RIMGO
-          value: "rimgo.nohost.network"
+          value: "https://rimgo.nohost.network"
         - name: APP_BREEZEWIKI
-          value: "breeze.nohost.network"
+          value: "https://breeze.nohost.network"
 
 ---
 
 apiVersion: v1
 kind: Service
 metadata:
-  name: librex-svc
+  name: librey-svc
   namespace: default
 spec:
   selector:
-    app: librex
+    app: librey
   type: ClusterIP
 
   ports:
