@@ -17,7 +17,7 @@ spec:
     spec:
       containers:
       - name: librey
-        image: ghcr.io/nohoster/librey:latest@sha256:fb8d950d090f02efd9f32b85cf1dc9cbbd2c46a620625b603388899cb67f5c6b
+        image: ghcr.io/ahwxorg/librey:latest
         ports:
         - containerPort: 8080
         #securityContext:
