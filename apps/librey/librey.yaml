@@ -17,7 +17,7 @@ spec:
     spec:
       containers:
       - name: librey
-        image: ghcr.io/nohoster/librey:latest
+        image: ghcr.io/nohoster/librey:latest@sha256:fb8d950d090f02efd9f32b85cf1dc9cbbd2c46a620625b603388899cb67f5c6b
         ports:
         - containerPort: 8080
         #securityContext:
@@ -31,11 +31,11 @@ spec:
         #    - ALL
         resources:
           requests:
-            cpu: "100m"
-            memory: "100Mi"
-          limits:
-            cpu: "200m"
+            cpu: "500m"
             memory: "200Mi"
+          limits:
+            cpu: "1000m"
+            memory: "400Mi"
         env:
         - name: PUID
           value: "1000"
@@ -59,6 +59,8 @@ spec:
           value: "https://rimgo.nohost.network"
         - name: APP_BREEZEWIKI
           value: "https://breeze.nohost.network"
+        - name: CONFIG_INSTANCE_FALLBACK
+          value: "true"
 
 ---
 
