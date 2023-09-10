@@ -22,10 +22,10 @@ spec:
         ports:
         - containerPort: 8080
         volumeMounts:
-        - name: nitter-volconfig
+        - name: nitter-config
           mountPath: /src/nitter.conf
           subPath: nitter.conf
-        - name: nitter-guest-accounts
+        - name: guest-accounts
           mountPath: /src/guest_accounts.json
           subPath: guest_accounts.json
         securityContext:
@@ -45,12 +45,19 @@ spec:
             cpu: "200m"
             memory: "256Mi"
       volumes:
-      - name: nitter-volconfig
+      - name: nitter-config
         secret:
-          secretName: nitter-conf
-      - name: nitter-guest-accounts
+          secretName: nitter-secrets
+          items:
+          - key: nitter.conf
+            path: "nitter.conf"
+      - name: guest-accounts
         secret:
-          secretName: nitter-guest-accounts
+          secretName: nitter-secrets
+          items:
+          - key: guest_accounts.json
+            path: "guest_accounts.json"
+
 
 
 
