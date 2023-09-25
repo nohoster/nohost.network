@@ -8,7 +8,7 @@ metadata:
     cert-manager.io/issuer: nohost-issuer
     traefik.ingress.kubernetes.io/router.entrypoints: websecure
     traefik.ingress.kubernetes.io/router.tls: "true"
-    traefik.ingress.kubernetes.io/router.middlewares: kube-system-test-ratelimit@kubernetescrd,kube-system-inflightreq@kubernetescrd
+#    traefik.ingress.kubernetes.io/router.middlewares: kube-system-test-ratelimit@kubernetescrd,kube-system-inflightreq@kubernetescrd
 spec:
   rules:
   - host: librex.nohost.network
@@ -38,7 +38,7 @@ metadata:
     cert-manager.io/issuer: nohost-issuer
     traefik.ingress.kubernetes.io/router.entrypoints: websecure
     traefik.ingress.kubernetes.io/router.tls: "true"
-    traefik.ingress.kubernetes.io/router.middlewares: kube-system-test-ratelimit@kubernetescrd,kube-system-inflightreq@kubernetescrd
+#    traefik.ingress.kubernetes.io/router.middlewares: kube-system-test-ratelimit@kubernetescrd,kube-system-inflightreq@kubernetescrd
 spec:
   rules:
   - host: librey.nohost.network
