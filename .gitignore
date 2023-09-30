@@ -1,6 +1,5 @@
 **/.monokle
 .vscode
-ansible
 k3s
 
 # Local .terraform directories
