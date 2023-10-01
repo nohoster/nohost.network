@@ -6,7 +6,7 @@ metadata:
 spec:
   interval: 10m0s
   dependsOn:
-  - name: infra
+  - name: infra-config
   path: ./apps
   prune: true
   wait: true
