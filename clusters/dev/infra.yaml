@@ -10,6 +10,29 @@ spec:
   sourceRef:
     kind: GitRepository
     name: flux-sync
+  patches:
+  - patch: |-
+      $patch: delete
+      apiVersion: helm.toolkit.fluxcd.io/v2beta1
+      kind: HelmRelease
+      metadata:
+        name: fluentbit
+        namespace: default
+    target:
+      kind: HelmRelease
+      name: fluentbit
+      namespace: default
+  - patch: |-
+      $patch: delete
+      apiVersion: source.toolkit.fluxcd.io/v1beta2
+      kind: HelmRepository
+      metadata:
+        name: fluent-repo
+        namespace: flux-system
+    target:
+      kind: HelmRepository
+      name: fluent-repo
+      namespace: flux-system
 
 ---
 
