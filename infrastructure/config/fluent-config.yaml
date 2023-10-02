@@ -2,7 +2,7 @@ apiVersion: v1
 kind: ConfigMap
 metadata:
   name: fluentbit-values
-  namespace: default
+  namespace: monitoring
 data:
   values.yaml: |
     config:

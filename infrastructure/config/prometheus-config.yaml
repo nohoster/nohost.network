@@ -1,0 +1,26 @@
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: prometheus-values
+  namespace: monitoring
+data:
+  values.yaml: |
+    server:
+      persistentVolume:
+        enabled: false
+      retention: "1d"
+
+      remoteWrite:
+      - url: https://prometheus-prod-13-prod-us-east-0.grafana.net/api/prom/push
+        write_relabel_configs:
+        - source_labels: [__name__]
+          regex: "container_memory_usage_bytes|traefik_service_open_connections|traefik_service_requests_total"
+          action: keep
+
+    
+    alertmanager:
+      enabled: false
+    
+    prometheus-node-exporter:
+      enabled: false
+

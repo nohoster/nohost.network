@@ -13,27 +13,26 @@ spec:
   patches:
   - patch: |-
       $patch: delete
-      apiVersion: helm.toolkit.fluxcd.io/v2beta1
-      kind: HelmRelease
-      metadata:
-        name: fluentbit
-        namespace: default
     target:
       kind: HelmRelease
-      name: fluentbit
-      namespace: default
+      name: "(fluentbit|prometheus)"
+      namespace: monitoring
   - patch: |-
       $patch: delete
-      apiVersion: source.toolkit.fluxcd.io/v1beta2
-      kind: HelmRepository
-      metadata:
-        name: fluent-repo
-        namespace: flux-system
     target:
       kind: HelmRepository
-      name: fluent-repo
+      name: "(fluent-repo|prometheus-community-repo)"
       namespace: flux-system
-
+  - patch: |-
+      $patch: delete
+    target:
+      kind: Secret
+      name: "(fluent-output-secret|prometheus-remote-secret)"
+  - patch: |-
+      $patch: delete
+    target:
+      kind: ConfigMap
+      name: "(fluentbit-values|prometheus-values)"
 ---
 
 apiVersion: kustomize.toolkit.fluxcd.io/v1
