@@ -1,6 +1,5 @@
 **/.monokle
 .vscode
-k3s
 
 # Local .terraform directories
 **/.terraform/*
