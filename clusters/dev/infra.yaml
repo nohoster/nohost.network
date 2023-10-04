@@ -10,29 +10,7 @@ spec:
   sourceRef:
     kind: GitRepository
     name: flux-sync
-  patches:
-  - patch: |-
-      $patch: delete
-    target:
-      kind: HelmRelease
-      name: "(fluentbit|prometheus)"
-      namespace: monitoring
-  - patch: |-
-      $patch: delete
-    target:
-      kind: HelmRepository
-      name: "(fluent-repo|prometheus-community-repo)"
-      namespace: flux-system
-  - patch: |-
-      $patch: delete
-    target:
-      kind: Secret
-      name: "(fluent-output-secret|prometheus-remote-secret)"
-  - patch: |-
-      $patch: delete
-    target:
-      kind: ConfigMap
-      name: "(fluentbit-values|prometheus-values)"
+    
 ---
 
 apiVersion: kustomize.toolkit.fluxcd.io/v1
