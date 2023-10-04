@@ -12,15 +12,21 @@ spec:
     name: flux-sync
   patches:
   - patch: |
-      - op: remove
-        path: /
+      $patch: delete
+      apiVersion: source.toolkit.fluxcd.io/v1beta2
+      kind: HelmRelease
+      metadata:
+        name: prometheus
     target:
       kind: HelmRelease
       name: prometheus
       namespace: monitoring
   - patch: |
-      - op: remove
-        path: /
+      $patch: delete
+      apiVersion: source.toolkit.fluxcd.io/v1beta2
+      kind: HelmRerelease
+      metadata:
+        name: fluentbit
     target:
       kind: HelmRelease
       name: fluentbit
@@ -29,20 +35,22 @@ spec:
       $patch: delete
       apiVersion: source.toolkit.fluxcd.io/v1beta2
       kind: HelmRepository
+      metadata:
+        name: fluent-repo
     target:
       kind: HelmRepository
-      name: "(fluent-repo|prometheus-community-repo)"
+      name: fluent-repo
       namespace: flux-system
   - patch: |
       $patch: delete
+      apiVersion: source.toolkit.fluxcd.io/v1beta2
+      kind: HelmRepository
+      metadata:
+        name: prometheus-community-repo
     target:
-      kind: Secret
-      name: "(fluent-output-secret|prometheus-remote-secret)"
-  - patch: |
-      $patch: delete
-    target:
-      kind: ConfigMap
-      name: "(fluentbit-values|prometheus-values)"
+      kind: HelmRepository
+      name: prometheus-community-repo
+      namespace: flux-system
 ---
 
 apiVersion: kustomize.toolkit.fluxcd.io/v1
@@ -59,3 +67,42 @@ spec:
   sourceRef:
     kind: GitRepository
     name: flux-sync
+  patches:
+  - patch: |
+      $patch: delete
+      apiVersion: external-secrets.io/v1beta1
+      kind: ExternalSecret
+      metadata:
+        name: fluent-output-secret
+    target:
+      kind: ExternalSecret
+      name: fluent-output-secret
+      namespace: default
+  - patch: |
+      $patch: delete
+      apiVersion: external-secrets.io/v1beta1
+      kind: ExternalSecret
+      metadata:
+        name: prometheus-remote-secret
+    target:
+      kind: ExternalSecret
+      name: prometheus-remote-secret
+      namespace: default
+  - patch: |
+      apiVersion: v1
+      kind: ConfigMap
+      metadata:
+         name: fluentbit-values
+    target:
+      kind: ConfigMap
+      name: fluentbit-values
+      namespace: monitoring
+  - patch: |
+      apiVersion: v1
+      kind: ConfigMap
+      metadata:
+         name: prometheus-values
+    target:
+      kind: ConfigMap
+      name: prometheus-values
+      namespace: monitoring
