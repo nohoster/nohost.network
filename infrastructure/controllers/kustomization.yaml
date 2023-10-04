@@ -10,7 +10,15 @@ patches:
       kind: HelmRelease
     target:
       kind: HelmRelease
-      name: "(fluentbit|prometheus)"
+      name: prometheus
+      namespace: monitoring
+  - patch: |
+      $patch: delete
+      apiVersion: source.toolkit.fluxcd.io/v1beta2
+      kind: HelmRelease
+    target:
+      kind: HelmRelease
+      name: fluentbit
       namespace: monitoring
   - patch: |
       $patch: delete
