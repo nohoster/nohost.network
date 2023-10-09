@@ -17,7 +17,8 @@ spec:
     spec:
       containers:
       - name: libreddit
-        image: libreddit/libreddit
+        #image: libreddit/libreddit
+        image: ghcr.io/nohoster/libreddit:latest
         ports:
         - containerPort: 8080
         env:
