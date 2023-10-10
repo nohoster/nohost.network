@@ -9,3 +9,4 @@ resources:
 - 'prometheus-config.yaml'
 - 'prometheus-remote-secret.yaml'
 - 'secret-store-default.yaml'
+- 'traefik-https-redirect.yaml'
