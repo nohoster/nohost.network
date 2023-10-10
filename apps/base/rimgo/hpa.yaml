@@ -9,11 +9,11 @@ spec:
     kind: Deployment
     name: rimgo
   minReplicas: 1
-  maxReplicas: 2
+  maxReplicas: 3
   metrics:
   - type: Resource
     resource:
       name: memory
       target:
         type: Utilization
-        averageUtilization: 70
+        averageUtilization: 60
