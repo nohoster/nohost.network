@@ -19,7 +19,7 @@ spec:
     name: voyager-official
   policy:
     semver:
-      range: '=1.14.1' 
-#temporary disabled to avoid 2.0 breaking
+      range: '<2.0.0' 
+#avoid updating to 2.0
       
 
