@@ -19,6 +19,6 @@ spec:
     name: voyager-official
   policy:
     semver:
-      range: '=1.14.0' #temporary to avoid 2.0 breaking
+      range: '=1.14.1' #temporary to avoid 2.0 breaking
       
 
