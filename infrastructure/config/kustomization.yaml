@@ -10,3 +10,4 @@ resources:
 - 'prometheus-remote-secret.yaml'
 - 'secret-store-default.yaml'
 - 'traefik-https-redirect.yaml'
+- 'base-imageupdateautomation.yaml'
