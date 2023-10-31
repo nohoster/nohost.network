@@ -18,16 +18,14 @@ spec:
       containers:
       - name: nitter
         #image: zedeus/nitter:latest
-        image: ghcr.io/nohoster/nitter:latest
+        #image: ghcr.io/nohoster/nitter:latest
+        image: repocr.azurecr.io/nitter:latest
         ports:
         - containerPort: 8080
         volumeMounts:
         - name: nitter-config
           mountPath: /src/nitter.conf
           subPath: nitter.conf
-        - name: guest-accounts
-          mountPath: /src/guest_accounts.json
-          subPath: guest_accounts.json
         securityContext:
           readOnlyRootFilesystem: true
           runAsGroup: 10010
@@ -44,6 +42,8 @@ spec:
           limits:
             cpu: "200m"
             memory: "256Mi"
+      imagePullSecrets:
+      - name: repocr-secret
       volumes:
       - name: nitter-config
         secret:
@@ -51,15 +51,6 @@ spec:
           items:
           - key: nitter.conf
             path: "nitter.conf"
-      - name: guest-accounts
-        secret:
-          secretName: nitter-secrets
-          items:
-          - key: guest_accounts.json
-            path: "guest_accounts.json"
-
-
-
 
 ---
 
