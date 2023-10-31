@@ -11,3 +11,4 @@ resources:
 - 'secret-store-default.yaml'
 - 'traefik-https-redirect.yaml'
 - 'base-imageupdateautomation.yaml'
+- 'repocr-secret.yaml'
