@@ -19,7 +19,8 @@ spec:
       - name: nitter
         #image: zedeus/nitter:latest
         #image: ghcr.io/nohoster/nitter:latest
-        image: repocr.azurecr.io/nitter:latest
+        # image: repocr.azurecr.io/nitter:latest
+        image: repo.nohost.network/nitter:latest
         ports:
         - containerPort: 8080
         volumeMounts:
@@ -43,7 +44,7 @@ spec:
             cpu: "200m"
             memory: "256Mi"
       imagePullSecrets:
-      - name: repocr-secret
+      - name: nohost-repo-secret
       volumes:
       - name: nitter-config
         secret:
