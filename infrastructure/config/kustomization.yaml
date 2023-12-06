@@ -12,3 +12,4 @@ resources:
 - 'traefik-https-redirect.yaml'
 - 'base-imageupdateautomation.yaml'
 - 'repocr-secret.yaml'
+- 'repo-nohost-secret.yaml'
