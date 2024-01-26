@@ -8,6 +8,7 @@ metadata:
     cert-manager.io/issuer: nohost-issuer
     traefik.ingress.kubernetes.io/router.entrypoints: websecure
     traefik.ingress.kubernetes.io/router.tls: "true"
+    traefik.ingress.kubernetes.io/router.middlewares: kube-system-ratelimit@kubernetescrd
 spec:
   rules:
   - host: nitter.nohost.network
