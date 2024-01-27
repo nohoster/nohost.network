@@ -48,7 +48,7 @@ spec:
         - name: CONFIG_GOOGLE_DOMAIN
           value: "com"
         - name: CONFIG_TEXT_SEARCH_ENGINE
-          value: "duckduckgo"
+          value: "auto"
         - name: CONFIG_GOOGLE_LANGUAGE
           value: "en"
         - name: CONFIG_WIKIPEDIA_LANGUAGE
