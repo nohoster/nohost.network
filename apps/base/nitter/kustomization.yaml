@@ -4,5 +4,5 @@ resources:
 - 'nitter.yaml'
 - 'nitter-secrets.yaml'
 - 'nitter-redis-helmrelease.yaml'
-- 'hpa.yaml'
+# - 'hpa.yaml'
 # - 'nitter-ingress.yaml'
