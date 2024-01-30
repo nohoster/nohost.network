@@ -1,28 +1,28 @@
 apiVersion: apps/v1
 kind: Deployment
 metadata:
-  name: libreddit
+  name: redlib
   namespace: default
   labels:
-    app: libreddit
+    app: redlib
 spec:
   replicas: 1
   selector:
     matchLabels:
-      app: libreddit
+      app: redlib
   template:
     metadata:
       labels:
-        app: libreddit
+        app: redlib
     spec:
       containers:
-      - name: libreddit
-        #image: libreddit/libreddit
-        image: ghcr.io/nohoster/libreddit:latest
+      - name: redlib
+        # image: ghcr.io/nohoster/redlib:latest
+        image: quay.io/redlib/redlib:latest
         ports:
         - containerPort: 8080
         env:
-        - name: LIBREDDIT_DEFAULT_THEME
+        - name: REDLIB_DEFAULT_THEME
           value: "black"
         securityContext:
           readOnlyRootFilesystem: true
@@ -46,11 +46,11 @@ spec:
 apiVersion: v1
 kind: Service
 metadata:
-  name: libreddit-svc
+  name: redlib-svc
   namespace: default
 spec:
   selector:
-    app: libreddit
+    app: redlib
   type: ClusterIP
   ports:
   - protocol: TCP
