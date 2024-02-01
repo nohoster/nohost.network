@@ -15,6 +15,7 @@ spec:
       labels:
         app: homepage
     spec:
+      automountServiceAccountToken: false
       containers:
       - name: homepage
         image: ghcr.io/nohoster/homepage:0.0.5 # {"$imagepolicy": "flux-system:homepage-image"}

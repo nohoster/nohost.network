@@ -18,6 +18,7 @@ spec:
       securityContext:
         runAsUser: 65534
         runAsGroup: 65534
+      automountServiceAccountToken: false
       containers:
       - name: rimgo
         image: codeberg.org/rimgo/rimgo:latest
@@ -34,9 +35,7 @@ spec:
           value: "true"
         securityContext:
           readOnlyRootFilesystem: true
-          runAsGroup: 65534
           runAsNonRoot: true
-          runAsUser: 65534
           allowPrivilegeEscalation: false
           capabilities: 
             drop: 
