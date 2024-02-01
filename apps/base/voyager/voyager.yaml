@@ -15,6 +15,7 @@ spec:
       labels:
         app: voyager
     spec:
+      automountServiceAccountToken: false
       containers:
       - name: voyager
         image: ghcr.io/aeharding/voyager:1.37.4 # {"$imagepolicy": "flux-system:voyager-image"}
