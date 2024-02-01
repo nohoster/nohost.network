@@ -15,6 +15,7 @@ spec:
       labels:
         app: breeze
     spec:
+      automountServiceAccountToken: false
       affinity:
         nodeAffinity:
           preferredDuringSchedulingIgnoredDuringExecution:

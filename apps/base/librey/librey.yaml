@@ -15,6 +15,7 @@ spec:
       labels:
         app: librey
     spec:
+      automountServiceAccountToken: false
       containers:
       - name: librey
         image: ghcr.io/ahwxorg/librey:latest

@@ -15,6 +15,7 @@ spec:
       labels:
         app: nitter
     spec:
+      automountServiceAccountToken: false
       containers:
       - name: nitter
         #image: zedeus/nitter:latest

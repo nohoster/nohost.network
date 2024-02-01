@@ -15,6 +15,7 @@ spec:
       labels:
         app: redlib
     spec:
+      automountServiceAccountToken: false
       containers:
       - name: redlib
         # image: ghcr.io/nohoster/redlib:latest
