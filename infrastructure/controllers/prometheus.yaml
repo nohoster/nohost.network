@@ -37,8 +37,8 @@ spec:
   - kind: Secret
     name: prometheus-remote-secret
     targetPath: server.remoteWrite[0].basic_auth.username
-    valuesKey: username
+    valuesKey: username-selfhosted
   - kind: Secret
     name: prometheus-remote-secret
     targetPath: server.remoteWrite[0].basic_auth.password
-    valuesKey: password
+    valuesKey: password-selfhosted

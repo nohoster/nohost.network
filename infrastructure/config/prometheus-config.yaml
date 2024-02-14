@@ -9,15 +9,22 @@ data:
       persistentVolume:
         enabled: false
       retention: "1d"
-
+      defaultFlagsOverride:
+      - --config.file=/etc/config/prometheus.yml
+      - --enable-feature=agent
+      - --storage.agent.retention.max-time=30m
+      - --web.enable-lifecycle
       remoteWrite:
-      - url: https://prometheus-prod-13-prod-us-east-0.grafana.net/api/prom/push
-        write_relabel_configs:
-        - source_labels: [__name__]
-          regex: "container_memory_usage_bytes|traefik_service_open_connections|traefik_service_requests_total"
-          action: keep
+      - url: https://prometheus.nohost.network/api/v1/write
+        # write_relabel_configs:
+        # - source_labels: [__name__]
+        #   regex: "container_memory_usage_bytes|traefik_service_open_connections|traefik_service_requests_total"
+        #   action: keep
 
-    
+    serverFiles:
+       prometheus.yml:
+        rule_files: null
+
     alertmanager:
       enabled: false
     
