@@ -18,8 +18,8 @@ spec:
       automountServiceAccountToken: false
       containers:
       - name: redlib
-        # image: ghcr.io/nohoster/redlib:latest
-        image: quay.io/redlib/redlib:latest
+        image: ghcr.io/nohoster/redlib:latest
+        # image: quay.io/redlib/redlib:latest
         ports:
         - containerPort: 8080
         env:
@@ -41,6 +41,8 @@ spec:
           limits:
             cpu: "200m"
             memory: "200Mi"
+      imagePullSecrets:
+      - name: ghcr-secret
 
 ---
 
