@@ -21,15 +21,15 @@ spec:
         image: ghcr.io/aeharding/voyager:2.3.0 # {"$imagepolicy": "flux-system:voyager-image"}
         ports:
         - containerPort: 5314
-        securityContext:
-          readOnlyRootFilesystem: true
-          runAsGroup: 911
-          runAsNonRoot: true
-          runAsUser: 911
-          allowPrivilegeEscalation: false
-          capabilities:
-            drop:
-            - ALL
+        # securityContext:
+          # readOnlyRootFilesystem: true
+          # runAsGroup: 911
+          # runAsNonRoot: true
+          # runAsUser: 911
+          # allowPrivilegeEscalation: false
+          # capabilities:
+            # drop:
+            # - ALL
         resources:
           requests:
             cpu: "100m"
