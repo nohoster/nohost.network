@@ -26,13 +26,13 @@ spec:
       - name:  invidious-server
         image:  quay.io/invidious/invidious
         imagePullPolicy: IfNotPresent
-        # resources:
-        #   requests:
-        #     cpu: 100m
-        #     memory: 100Mi
-        #   limits:
-        #     cpu: 100m
-        #     memory: 100Mi
+        resources:
+          requests:
+            cpu: 100m
+            memory: 100Mi
+          limits:
+            cpu: 200m
+            memory: 250Mi
         env:
         - name: INVIDIOUS_CONFIG
           valueFrom:
