@@ -1,0 +1,29 @@
+apiVersion: networking.k8s.io/v1
+kind: Ingress
+metadata:
+  name: invidious-ingress
+  namespace: default
+  annotations:
+    spec.ingressClassName: traefik
+    cert-manager.io/issuer: nohost-issuer
+    traefik.ingress.kubernetes.io/router.entrypoints: websecure
+    traefik.ingress.kubernetes.io/router.tls: "true"
+    external-dns.alpha.kubernetes.io/ingress-hostname-source: defined-hosts-only 
+    external-dns.alpha.kubernetes.io/target: nohost.network
+    external-dns.alpha.kubernetes.io/cloudflare-proxied: "false"
+spec:
+  rules:
+  - host: invidious.nohost.network
+    http:
+      paths:
+      - path: /
+        pathType: Prefix
+        backend:
+          service:
+            name: invidious-svc
+            port:
+              number: 80
+  tls:
+  - hosts:
+    - invidious.nohost.network
+    secretName: invidious-cert

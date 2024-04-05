@@ -1,0 +1,65 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name:  invidious
+  namespace: default
+  labels:
+    app:  invidious
+  annotations:
+    kubernetes.io/egress-bandwidth: "25M"
+spec:
+  selector:
+    matchLabels:
+      app: invidious
+  replicas: 1
+  strategy:
+    rollingUpdate:
+      maxSurge: 25%
+      maxUnavailable: 25%
+    type: RollingUpdate
+  template:
+    metadata:
+      labels:
+        app:  invidious
+    spec:
+      containers:
+      - name:  invidious-server
+        image:  quay.io/invidious/invidious
+        imagePullPolicy: IfNotPresent
+        # resources:
+        #   requests:
+        #     cpu: 100m
+        #     memory: 100Mi
+        #   limits:
+        #     cpu: 100m
+        #     memory: 100Mi
+        env:
+        - name: INVIDIOUS_CONFIG
+          valueFrom:
+            secretKeyRef:
+              key: INVIDIOUS_CONFIG
+              name: invidious-config-secret
+        - name: INVIDIOUS_PORT
+          value: "3000"
+        ports:
+        - containerPort: 3000
+          name:  invidious
+      restartPolicy: Always
+---
+
+apiVersion: v1
+kind: Service
+metadata:
+  name: invidious-svc
+  namespace: default
+spec:
+  selector:
+    app: invidious
+  type: ClusterIP
+  ports:
+  - name: invidious
+    protocol: TCP
+    port: 80
+    targetPort: 3000
+---
+
