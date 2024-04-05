@@ -26,6 +26,7 @@ spec:
       - name:  invidious-server
         image:  quay.io/invidious/invidious
         imagePullPolicy: IfNotPresent
+        automountServiceAccountToken: false
         resources:
           requests:
             cpu: 100m
