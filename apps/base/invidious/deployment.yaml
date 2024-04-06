@@ -26,7 +26,6 @@ spec:
       - name:  invidious-server
         image:  quay.io/invidious/invidious
         imagePullPolicy: IfNotPresent
-        automountServiceAccountToken: false
         resources:
           requests:
             cpu: 100m
@@ -46,6 +45,7 @@ spec:
         - containerPort: 3000
           name:  invidious
       restartPolicy: Always
+      automountServiceAccountToken: false
 ---
 
 apiVersion: v1
