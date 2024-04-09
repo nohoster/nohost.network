@@ -49,7 +49,7 @@ spec:
         - name: CONFIG_GOOGLE_DOMAIN
           value: "com"
         - name: CONFIG_TEXT_SEARCH_ENGINE
-          value: "auto"
+          value: "google"
         - name: CONFIG_GOOGLE_LANGUAGE
           value: "en"
         - name: CONFIG_WIKIPEDIA_LANGUAGE
@@ -64,6 +64,10 @@ spec:
           value: "https://breeze.nohost.network"
         - name: CONFIG_INSTANCE_FALLBACK
           value: "true"
+        - name: CURLOPT_IPRESOLVE
+          value: "CURL_IPRESOLVE_V6"
+        - name: CURLOPT_USERAGENT
+          value: "Mozilla/5.0 (Windows NT 10.0; WOW64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/122.0.6267.212 Safari/537.36"
 
 ---
 
