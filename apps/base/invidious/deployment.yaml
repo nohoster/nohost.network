@@ -23,6 +23,11 @@ spec:
         app:  invidious
     spec:
       containers:
+      - name: restart
+        image: busybox:latest
+        command:
+        - sleep
+        - "7200"
       - name:  invidious-server
         image:  quay.io/invidious/invidious
         imagePullPolicy: IfNotPresent
