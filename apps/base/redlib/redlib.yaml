@@ -20,6 +20,10 @@ spec:
       - name: redlib
         image: ghcr.io/nohoster/redlib:latest
         # image: quay.io/redlib/redlib:latest
+        livenessProbe:
+          httpGet:
+            path: "/settings"
+            port: 8080
         ports:
         - containerPort: 8080
         env:
