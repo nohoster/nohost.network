@@ -27,7 +27,7 @@ spec:
         image: busybox:latest
         command:
         - sleep
-        - "7200"
+        - "43200"
       - name:  invidious-server
         image:  quay.io/invidious/invidious
         imagePullPolicy: IfNotPresent
