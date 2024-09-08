@@ -23,14 +23,13 @@ spec:
         app:  invidious
     spec:
       containers:
-      - name: restart
-        image: busybox:latest
-        command:
-        - sleep
-        - "43200"
       - name:  invidious-server
         image:  quay.io/invidious/invidious
         imagePullPolicy: IfNotPresent
+        livenessProbe:
+          httpGet:
+            path: "/api/v1/trending"
+            port: 3000
         resources:
           requests:
             cpu: 100m
@@ -49,6 +48,12 @@ spec:
         ports:
         - containerPort: 3000
           name:  invidious
+      - name: inv_sig_helper
+        image: quay.io/invidious/inv-sig-helper:latest
+        command: ["--tcp", "0.0.0.0:12999"]
+        env:
+          - name: RUST_LOG
+            value: "info"
       restartPolicy: Always
       automountServiceAccountToken: false
 ---
