@@ -11,7 +11,7 @@ data:
       retention: "1d"
       defaultFlagsOverride:
       - --config.file=/etc/config/prometheus.yml
-      - --enable-feature=agent
+      - --agent
       - --storage.agent.retention.max-time=30m
       - --web.enable-lifecycle
       remoteWrite:

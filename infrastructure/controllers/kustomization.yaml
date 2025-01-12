@@ -6,3 +6,4 @@ resources:
 - 'fluentbit.yaml'
 - 'monitoring-ns.yaml'
 - 'prometheus.yaml'
+- './external-dns.yaml'
