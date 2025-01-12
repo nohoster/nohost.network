@@ -18,7 +18,7 @@ spec:
       automountServiceAccountToken: false
       containers:
       - name: voyager
-        image: ghcr.io/aeharding/voyager:2.22.0 # {"$imagepolicy": "flux-system:voyager-image"}
+        image: ghcr.io/aeharding/voyager:2.23.0 # {"$imagepolicy": "flux-system:voyager-image"}
         ports:
         - containerPort: 5314
         # securityContext:
