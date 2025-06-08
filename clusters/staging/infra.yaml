@@ -119,7 +119,7 @@ spec:
       namespace: default
   - patch: |
       $patch: delete
-      apiVersion: external-secrets.io/v1beta1
+      apiVersion: external-secrets.io/v1
       kind: ExternalSecret
       metadata:
         name: cloudflare-api-token
@@ -129,7 +129,7 @@ spec:
       namespace: default
   - patch: |
       $patch: delete
-      apiVersion: external-secrets.io/v1beta1
+      apiVersion: external-secrets.io/v1
       kind: ExternalSecret
       metadata:
         name: fluent-output-secret
@@ -139,7 +139,7 @@ spec:
       namespace: default
   - patch: |
       $patch: delete
-      apiVersion: external-secrets.io/v1beta1
+      apiVersion: external-secrets.io/v1
       kind: ExternalSecret
       metadata:
         name: prometheus-remote-secret
