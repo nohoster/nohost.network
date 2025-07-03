@@ -53,7 +53,7 @@ spec:
             memory: "512Mi"
           limits:
             cpu: "200m"
-            memory: "700Mi"
+            memory: "900Mi"
       imagePullSecrets:
       - name: codeberg-secret
 
