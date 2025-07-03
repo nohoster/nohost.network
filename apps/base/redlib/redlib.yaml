@@ -29,6 +29,8 @@ spec:
         env:
         - name: REDLIB_DEFAULT_THEME
           value: "black"
+        - name: REDLIB_ROBOTS_DISABLE_INDEXING
+          value: "on"
         securityContext:
           readOnlyRootFilesystem: true
           runAsGroup: 10010
@@ -40,11 +42,11 @@ spec:
             - ALL
         resources:
           requests:
-            cpu: "100m"
-            memory: "100Mi"
-          limits:
             cpu: "200m"
-            memory: "200Mi"
+            memory: "2560Mi"
+          limits:
+            cpu: "400m"
+            memory: "512Mi"
       imagePullSecrets:
       - name: ghcr-secret
 
