@@ -17,41 +17,82 @@ spec:
     spec:
       automountServiceAccountToken: false
       containers:
-      - name: redlib
-        # image: ghcr.io/nohoster/redlib:latest
-        image: quay.io/redlib/redlib:latest
-        livenessProbe:
-          httpGet:
-            path: "/settings"
-            port: 8080
-        ports:
-        - containerPort: 8080
-        env:
-        - name: REDLIB_DEFAULT_THEME
-          value: "black"
-        - name: REDLIB_ROBOTS_DISABLE_INDEXING
-          value: "on"
-        securityContext:
-          readOnlyRootFilesystem: true
-          runAsGroup: 10010
-          runAsNonRoot: true
-          runAsUser: 10010
-          allowPrivilegeEscalation: false
-          capabilities: 
-            drop: 
-            - ALL
-        resources:
-          requests:
-            cpu: "200m"
-            memory: "256Mi"
-          limits:
-            cpu: "400m"
-            memory: "512Mi"
+        - name: anubis
+          env:
+            - name: BIND
+              value: :8090
+            - name: DIFFICULTY
+              value: "4"
+            - name: ED25519_PRIVATE_KEY_HEX
+              valueFrom:
+                secretKeyRef:
+                  key: ED25519_PRIVATE_KEY_HEX
+                  name: anubis-key
+            - name: METRICS_BIND
+              value: :9091
+            - name: SERVE_ROBOTS_TXT
+              value: "true"
+            - name: TARGET
+              value: http://0.0.0.0:8080
+            - name: OG_PASSTHROUGH
+              value: "true"
+            - name: OG_EXPIRY_TIME
+              value: 24h
+          image: ghcr.io/techarohq/anubis:latest
+          imagePullPolicy: Always
+          resources:
+            limits:
+              cpu: 750m
+              memory: 256Mi
+            requests:
+              cpu: 250m
+              memory: 256Mi
+          securityContext:
+            allowPrivilegeEscalation: false
+            capabilities:
+              drop:
+                - ALL
+            runAsGroup: 1000
+            runAsNonRoot: true
+            runAsUser: 1000
+            seccompProfile:
+              type: RuntimeDefault
+          terminationMessagePath: /dev/termination-log
+          terminationMessagePolicy: File
+        - name: redlib
+          # image: ghcr.io/nohoster/redlib:latest
+          image: quay.io/redlib/redlib:latest
+          livenessProbe:
+            httpGet:
+              path: "/settings"
+              port: 8080
+          ports:
+            - containerPort: 8080
+          env:
+            - name: REDLIB_DEFAULT_THEME
+              value: "black"
+            - name: REDLIB_ROBOTS_DISABLE_INDEXING
+              value: "on"
+          securityContext:
+            readOnlyRootFilesystem: true
+            runAsGroup: 10010
+            runAsNonRoot: true
+            runAsUser: 10010
+            allowPrivilegeEscalation: false
+            capabilities:
+              drop:
+                - ALL
+          resources:
+            requests:
+              cpu: "200m"
+              memory: "256Mi"
+            limits:
+              cpu: "400m"
+              memory: "512Mi"
       imagePullSecrets:
-      - name: ghcr-secret
+        - name: ghcr-secret
 
 ---
-
 apiVersion: v1
 kind: Service
 metadata:
@@ -62,6 +103,11 @@ spec:
     app: redlib
   type: ClusterIP
   ports:
-  - protocol: TCP
-    port: 80
-    targetPort: 8080
+    - protocol: TCP
+      port: 80
+      targetPort: 8080
+      name: redlib
+    - name: anubis
+      port: 8090
+      protocol: TCP
+      targetPort: 8090
