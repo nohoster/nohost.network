@@ -37,7 +37,7 @@ spec:
             - name: OG_PASSTHROUGH
               value: "true"
             - name: OG_EXPIRY_TIME
-              value: 24h
+              value: 5m
           image: ghcr.io/techarohq/anubis:latest
           imagePullPolicy: Always
           resources:
