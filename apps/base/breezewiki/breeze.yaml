@@ -28,7 +28,7 @@ spec:
                 - "true"
       containers:
       - name: breeze
-        image: codeberg.org/nohoster/breezewiki:latest
+        image: quay.io/pussthecatorg/breezewiki:latest
         ports:
         - containerPort: 10416
         env:
@@ -54,8 +54,8 @@ spec:
           limits:
             cpu: "200m"
             memory: "900Mi"
-      imagePullSecrets:
-      - name: codeberg-secret
+      #imagePullSecrets:
+      #- name: codeberg-secret
 
 ---
 
