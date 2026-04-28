@@ -22,7 +22,7 @@ spec:
               service:
                 name: redlib-svc
                 port:
-                  name: anubis
+                  name: redlib
   tls:
     - hosts:
         - libreddit.nohost.network
@@ -53,7 +53,7 @@ spec:
               service:
                 name: redlib-svc
                 port:
-                  name: anubis
+                  name: redlib
   tls:
     - hosts:
         - redlib.nohost.network
