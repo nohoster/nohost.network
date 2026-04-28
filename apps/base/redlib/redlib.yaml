@@ -19,7 +19,8 @@ spec:
       containers:
         - name: redlib
           # image: ghcr.io/nohoster/redlib:latest
-          image: quay.io/redlib/redlib:latest
+          # image: quay.io/redlib/redlib:latest
+          image: ghcr.io/silvenga/redlib:latest
           livenessProbe:
             httpGet:
               path: "/settings"
