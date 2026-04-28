@@ -36,8 +36,8 @@ metadata:
   namespace: flux-system
 spec:
   interval: 1h0m0s
-  url: oci://registry-1.docker.io/bitnamicharts
-  type: oci
+  url: https://kubernetes-sigs.github.io/external-dns/
+  type: default
 
 ---
 
@@ -51,7 +51,7 @@ spec:
   chart:
     spec:
       chart: external-dns
-      version: '>=6.44.0'
+      version: '>=1.20.0'
       sourceRef:
         kind: HelmRepository
         name: external-dns-repo
@@ -66,13 +66,9 @@ spec:
     provider: "cloudflare"
     sources: ["ingress"]
     cloudflare.proxied: false
-  valuesFrom:
-  - kind: Secret
-    name: cloudflare-api-secret
-    targetPath: cloudflare.apiToken
-    valuesKey: api-token 
-  - kind: Secret
-    name: cloudflare-api-secret
-    targetPath: cloudflare.email
-    valuesKey: api-email
-
+    env:
+      - name: CF_API_TOKEN
+        valueFrom:
+          secretKeyRef:
+            name: cloudflare-api-secret
+            key: api-token
