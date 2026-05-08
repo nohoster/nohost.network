@@ -34,7 +34,7 @@ data:
         [INPUT]
             name node_exporter_metrics
             tag metrics
-            scrape_interval 2
+            scrape_interval 60
       ## https://docs.fluentbit.io/manual/pipeline/filters
       filters: |
         [FILTER]
@@ -48,4 +48,3 @@ data:
             name grep
             match kube.*
             exclude log core_throttle_count
-     
