@@ -1,4 +1,4 @@
-apiVersion: image.toolkit.fluxcd.io/v1beta2
+apiVersion: image.toolkit.fluxcd.io/v1
 kind: ImageRepository
 metadata:
   name: voyager-official
@@ -8,8 +8,7 @@ spec:
   interval: 10m0s
 
 ---
-
-apiVersion: image.toolkit.fluxcd.io/v1beta2
+apiVersion: image.toolkit.fluxcd.io/v1
 kind: ImagePolicy
 metadata:
   name: voyager-image
@@ -19,6 +18,4 @@ spec:
     name: voyager-official
   policy:
     semver:
-      range: '<3.0.0' 
-      
-
+      range: "<3.0.0"
