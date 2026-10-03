@@ -1,0 +1,83 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: redlib-anubis
+  namespace: default
+  labels:
+    app: redlib-anubis
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: redlib-anubis
+  template:
+    metadata:
+      labels:
+        app: redlib-anubis
+    spec:
+      automountServiceAccountToken: false
+      containers:
+        - name: anubis
+          image: ghcr.io/techarohq/anubis:latest
+          imagePullPolicy: Always
+          env:
+            - name: "BIND"
+              value: ":8080"
+            - name: "POLICY_FNAME"
+              value: "/data/cfg/botPolicy.yaml"
+            # - name: ED25519_PRIVATE_KEY_HEX
+            #   valueFrom:
+            #     secretKeyRef:
+            #       name: anubis-key
+            #       key: ED25519_PRIVATE_KEY_HEX
+            - name: "METRICS_BIND"
+              value: ":9090"
+            - name: "SERVE_ROBOTS_TXT"
+              value: "true"
+            - name: "TARGET"
+              value: "http://redlib-svc:80"
+            - name: "OG_PASSTHROUGH"
+              value: "true"
+            - name: "OG_EXPIRY_TIME"
+              value: "24h"
+          volumeMounts:
+            - name: bot-policy
+              mountPath: /data/cfg
+              readOnly: true
+          resources:
+            limits:
+              cpu: 750m
+              memory: 256Mi
+            requests:
+              cpu: 250m
+              memory: 256Mi
+          securityContext:
+            runAsUser: 1000
+            runAsGroup: 1000
+            runAsNonRoot: true
+            allowPrivilegeEscalation: false
+            capabilities:
+              drop:
+                - ALL
+            seccompProfile:
+              type: RuntimeDefault
+      volumes:
+        - name: bot-policy
+          configMap:
+            name: bot-policy
+
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: redlib-anubis-svc
+  namespace: default
+spec:
+  selector:
+    app: redlib-anubis
+  type: ClusterIP
+  ports:
+    - protocol: TCP
+      port: 8080
+      targetPort: 8080
+      name: anubis
