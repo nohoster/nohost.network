@@ -20,37 +20,87 @@ spec:
         runAsGroup: 65534
       automountServiceAccountToken: false
       containers:
-      - name: rimgo
-        image: codeberg.org/rimgo/rimgo:latest
-        ports:
-        - containerPort: 3000
-        env:
-        - name: PRIVACY_COUNTRY
-          value: "Mexico"
-        - name: PRIVACY_PROVIDER
-          value: "Telmex"
-        - name: PRIVACY_NOT_COLLECTED
-          value: "true"
-        - name: PRIVACY_DIAGNOSTICS
-          value: "true"
-        securityContext:
-          readOnlyRootFilesystem: true
-          runAsNonRoot: true
-          allowPrivilegeEscalation: false
-          capabilities: 
-            drop: 
-            - ALL
-        resources:
-          requests:
-            cpu: "100m"
-            memory: "100Mi"
-          limits:
-            cpu: "200m"
-            memory: "200Mi"
-
+        - name: anubis
+          image: ghcr.io/techarohq/anubis:latest
+          imagePullPolicy: Always
+          env:
+            - name: "BIND"
+              value: ":8080"
+            - name: "POLICY_FNAME"
+              value: "/data/cfg/botPolicy.yaml"
+            - name: ED25519_PRIVATE_KEY_HEX
+              valueFrom:
+                secretKeyRef:
+                  name: anubis-key
+                  key: ED25519_PRIVATE_KEY_HEX
+            - name: "METRICS_BIND"
+              value: ":9090"
+            - name: "SERVE_ROBOTS_TXT"
+              value: "true"
+            - name: "TARGET"
+              value: "http://localhost:3000"
+            - name: "OG_PASSTHROUGH"
+              value: "true"
+            - name: "OG_EXPIRY_TIME"
+              value: "24h"
+            - name: COOKIE_EXPIRATION_TIME
+              value: "1h"
+            - name: COOKIE_PARTITIONED
+              value: "true"
+          volumeMounts:
+            - name: bot-policy
+              mountPath: /data/cfg
+              readOnly: true
+          resources:
+            limits:
+              cpu: 750m
+              memory: 256Mi
+            requests:
+              cpu: 250m
+              memory: 256Mi
+          securityContext:
+            runAsUser: 1000
+            runAsGroup: 1000
+            runAsNonRoot: true
+            allowPrivilegeEscalation: false
+            capabilities:
+              drop:
+                - ALL
+            seccompProfile:
+              type: RuntimeDefault
+        - name: rimgo
+          image: codeberg.org/rimgo/rimgo:latest
+          ports:
+            - containerPort: 3000
+          env:
+            - name: PRIVACY_COUNTRY
+              value: "Mexico"
+            - name: PRIVACY_PROVIDER
+              value: "Telmex"
+            - name: PRIVACY_NOT_COLLECTED
+              value: "true"
+            - name: PRIVACY_DIAGNOSTICS
+              value: "true"
+          securityContext:
+            readOnlyRootFilesystem: true
+            runAsNonRoot: true
+            allowPrivilegeEscalation: false
+            capabilities:
+              drop:
+                - ALL
+          resources:
+            requests:
+              cpu: "100m"
+              memory: "128Mi"
+            limits:
+              cpu: "200m"
+              memory: "256Mi"
+      volumes:
+        - name: bot-policy
+          configMap:
+            name: bot-policy
 
 ---
-
 apiVersion: v1
 kind: Service
 metadata:
@@ -61,6 +111,11 @@ spec:
     app: rimgo
   type: ClusterIP
   ports:
-  - protocol: TCP
-    port: 80
-    targetPort: 3000
+    - protocol: TCP
+      port: 80
+      targetPort: 3000
+      name: rimgo
+    - protocol: TCP
+      port: 8080
+      targetPort: 8080
+      name: anubis

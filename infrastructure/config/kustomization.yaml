@@ -2,6 +2,8 @@ apiVersion: kustomize.config.k8s.io/v1beta1
 kind: Kustomization
 resources:
   - "anubis-key-secret.yaml"
+  - "anubis-botpolicy.yaml"
+  - "anubis-csp-middlewere.yaml"
   - "clodflare-token-secret.yaml"
   - "cert-issuer.yaml"
   - "codeberg-secret.yaml"

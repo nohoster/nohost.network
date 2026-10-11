@@ -8,24 +8,22 @@ metadata:
     cert-manager.io/issuer: nohost-issuer
     traefik.ingress.kubernetes.io/router.entrypoints: websecure
     traefik.ingress.kubernetes.io/router.tls: "true"
-    traefik.ingress.kubernetes.io/router.middlewares: kube-system-ratelimit@kubernetescrd
-    external-dns.alpha.kubernetes.io/ingress-hostname-source: defined-hosts-only 
+    external-dns.alpha.kubernetes.io/ingress-hostname-source: defined-hosts-only
     external-dns.alpha.kubernetes.io/target: nohost.network
     external-dns.alpha.kubernetes.io/cloudflare-proxied: "false"
 spec:
   rules:
-  - host: nitter.nohost.network
-    http:
-      paths:
-      - path: /
-        pathType: Prefix
-        backend:
-          service:
-            name: nitter-svc
-            port:
-              number: 80
+    - host: nitter.nohost.network
+      http:
+        paths:
+          - path: /
+            pathType: Prefix
+            backend:
+              service:
+                name: nitter-svc
+                port:
+                  number: 80
   tls:
-  - hosts:
-    - nitter.nohost.network
-    secretName: nitter-cert
-
+    - hosts:
+        - nitter.nohost.network
+      secretName: nitter-cert

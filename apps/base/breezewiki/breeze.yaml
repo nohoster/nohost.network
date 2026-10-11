@@ -19,46 +19,99 @@ spec:
       affinity:
         nodeAffinity:
           preferredDuringSchedulingIgnoredDuringExecution:
-          - weight: 1
-            preference:
-              matchExpressions:
-              - key: node-role.kubernetes.io/worker
-                operator: In
-                values:
-                - "true"
+            - weight: 1
+              preference:
+                matchExpressions:
+                  - key: node-role.kubernetes.io/worker
+                    operator: In
+                    values:
+                      - "true"
       containers:
-      - name: breeze
-        image: quay.io/pussthecatorg/breezewiki:latest
-        ports:
-        - containerPort: 10416
-        env:
-        - name: bw_canonical_origin
-          value: "breeze.nohost.network"
-        - name: bw_port
-          value: "10416"
-        - name: bw_debug
-          value: "false"
-        securityContext:
-        #  readOnlyRootFilesystem: true
-        #  runAsGroup: 10010
-        #  runAsNonRoot: true
-        #  runAsUser: 10010
-          allowPrivilegeEscalation: false
-          capabilities: 
-            drop: 
-            - ALL
-        resources:
-          requests:
-            cpu: "100m"
-            memory: "512Mi"
-          limits:
-            cpu: "200m"
-            memory: "900Mi"
-      #imagePullSecrets:
-      #- name: codeberg-secret
+        - name: breeze
+          image: quay.io/pussthecatorg/breezewiki:latest
+          ports:
+            - containerPort: 10416
+          env:
+            - name: bw_canonical_origin
+              value: "https://breeze.nohost.network"
+            - name: bw_port
+              value: "10416"
+            - name: bw_debug
+              value: "false"
+            - name: bw_bind_host
+              value: "0.0.0.0"
+          securityContext:
+            #  readOnlyRootFilesystem: true
+            #  runAsGroup: 10010
+            #  runAsNonRoot: true
+            #  runAsUser: 10010
+            allowPrivilegeEscalation: false
+            capabilities:
+              drop:
+                - ALL
+          resources:
+            requests:
+              cpu: "100m"
+              memory: "512Mi"
+            limits:
+              cpu: "200m"
+              memory: "900Mi"
+        #imagePullSecrets:
+        #- name: codeberg-secret
+        - name: anubis
+          image: ghcr.io/techarohq/anubis:latest
+          imagePullPolicy: Always
+          env:
+            - name: "BIND"
+              value: ":8080"
+            - name: "POLICY_FNAME"
+              value: "/data/cfg/botPolicy.yaml"
+            - name: ED25519_PRIVATE_KEY_HEX
+              valueFrom:
+                secretKeyRef:
+                  name: anubis-key
+                  key: ED25519_PRIVATE_KEY_HEX
+            - name: "METRICS_BIND"
+              value: ":9090"
+            - name: "SERVE_ROBOTS_TXT"
+              value: "true"
+            - name: "TARGET"
+              value: "http://localhost:10416"
+            - name: "OG_PASSTHROUGH"
+              value: "true"
+            - name: "OG_EXPIRY_TIME"
+              value: "24h"
+            - name: COOKIE_EXPIRATION_TIME
+              value: "1h"
+            - name: COOKIE_PARTITIONED
+              value: "true"
+          volumeMounts:
+            - name: bot-policy
+              mountPath: /data/cfg
+              readOnly: true
+          resources:
+            limits:
+              cpu: 750m
+              memory: 256Mi
+            requests:
+              cpu: 250m
+              memory: 256Mi
+          securityContext:
+            runAsUser: 1000
+            runAsGroup: 1000
+            runAsNonRoot: true
+            allowPrivilegeEscalation: false
+            capabilities:
+              drop:
+                - ALL
+            seccompProfile:
+              type: RuntimeDefault
+      volumes:
+        - name: bot-policy
+          configMap:
+            name: bot-policy
 
 ---
-
 apiVersion: v1
 kind: Service
 metadata:
@@ -69,6 +122,11 @@ spec:
     app: breeze
   type: ClusterIP
   ports:
-  - protocol: TCP
-    port: 80
-    targetPort: 10416
+    - protocol: TCP
+      port: 80
+      targetPort: 10416
+      name: breeze
+    - protocol: TCP
+      port: 8080
+      targetPort: 8080
+      name: anubis
