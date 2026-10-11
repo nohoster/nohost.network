@@ -3,7 +3,7 @@ kind: Kustomization
 resources:
   - "anubis-key-secret.yaml"
   - "anubis-botpolicy.yaml"
-  - "anubis-csp-middlewere.yaml"
+  - "anubis-csp-middleware.yaml"
   - "clodflare-token-secret.yaml"
   - "cert-issuer.yaml"
   - "codeberg-secret.yaml"
