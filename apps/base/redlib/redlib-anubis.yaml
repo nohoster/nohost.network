@@ -41,7 +41,7 @@ spec:
             - name: "OG_EXPIRY_TIME"
               value: "24h"
             - name: COOKIE_EXPIRATION_TIME
-              value: "1h"
+              value: "5m"
             - name: COOKIE_PARTITIONED
               value: "true"
           volumeMounts:
